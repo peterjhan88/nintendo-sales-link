@@ -18,8 +18,8 @@
   font-size: 35px;
 }
 .image-contain {
-  height: 80%;
-  width: 80%;
+  height: 100%;
+  width: 100%;
   object-fit: contain;
 }
 .image-detail {
@@ -28,7 +28,9 @@
 }
 .image-container-cart {
   height: 100%;
-  width: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .image-container-list {
   display: flex;
