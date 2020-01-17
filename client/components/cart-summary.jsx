@@ -50,6 +50,7 @@ export default class CartSummary extends React.Component {
           key={item.cartItemId}
           item={item}
           removeItem={this.props.removeItem}
+          addToCart={this.props.addToCart}
           removeItemEntirely={this.props.removeItemEntirely}
           qty={this.getQuantity(item.productId)}
         />

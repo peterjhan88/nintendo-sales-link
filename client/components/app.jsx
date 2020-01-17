@@ -42,9 +42,9 @@ export default class App extends React.Component {
       });
   }
 
-  addToCart(product) {
+  addToCart(productObject) {
     const productToAdd = {
-      productId: product.productId
+      productId: productObject.productId
     };
     const headersToAdd = {
       method: 'POST',
@@ -132,6 +132,7 @@ export default class App extends React.Component {
           cart={this.state.cart}
           setView={this.setView}
           removeItem={this.removeItem}
+          addToCart={this.addToCart}
           removeItemEntirely={this.removeItemEntirely}
         />
       );
