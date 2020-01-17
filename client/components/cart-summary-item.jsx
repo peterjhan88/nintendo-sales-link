@@ -17,7 +17,7 @@ export default class CartSummaryItem extends React.Component {
         <div className='col-2'>
           <div className='col-12 d-flex flex-column justify-content-center'>
             <div className='w-100 quantity-title mb-4' >Quantity</div>
-            <div className='row d-flex align-items-center'>
+            <div className='row d-flex align-items-center justify-content-center'>
               <div className='quantity-box ml-4'>{this.props.qty}</div>
               <div className='ml-3'>
                 <div className='arrow-box cursor-pointer mb-3' onClick={() => { this.props.addToCart({ productId: this.props.item.productId }); }} >
