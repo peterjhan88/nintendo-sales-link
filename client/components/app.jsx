@@ -19,6 +19,7 @@ export default class App extends React.Component {
     this.addToCart = this.addToCart.bind(this);
     this.placeOrder = this.placeOrder.bind(this);
     this.removeItem = this.removeItem.bind(this);
+    this.removeItemEntirely = this.removeItemEntirely.bind(this);
   }
 
   setView(name, params) {
@@ -41,9 +42,9 @@ export default class App extends React.Component {
       });
   }
 
-  addToCart(product) {
+  addToCart(productObject) {
     const productToAdd = {
-      productId: product.productId
+      productId: productObject.productId
     };
     const headersToAdd = {
       method: 'POST',
@@ -102,6 +103,13 @@ export default class App extends React.Component {
       });
   }
 
+  removeItemEntirely(productId) {
+    const itemsToRemove = this.state.cart.filter(item => item.productId === productId);
+    for (var index = 0; index < itemsToRemove.length; index++) {
+      this.removeItem(itemsToRemove[index].cartItemId);
+    }
+  }
+
   componentDidMount() {
     this.getCartItems();
   }
@@ -124,6 +132,8 @@ export default class App extends React.Component {
           cart={this.state.cart}
           setView={this.setView}
           removeItem={this.removeItem}
+          addToCart={this.addToCart}
+          removeItemEntirely={this.removeItemEntirely}
         />
       );
     } else if (this.state.view.name === 'checkout') {
