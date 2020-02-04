@@ -78,7 +78,7 @@ app.post('/api/cart', (req, res, next) => {
       }
       if (req.session.cart_id) {
         const existingCart = {
-          cart_id: req.session.car_id,
+          cart_id: req.session.cart_id,
           price: productsResult.rows[0].price
         };
         return existingCart;
