@@ -15,7 +15,7 @@ export default class ProductDetails extends React.Component {
   }
 
   handleAddButtonClick() {
-    this.props.addToCart({ productId: this.props.params.productId });
+    this.props.addToCart({ product_id: this.props.params.productId });
   }
 
   componentDidMount() {
