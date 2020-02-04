@@ -232,6 +232,7 @@ ALTER TABLE ONLY public.products ALTER COLUMN product_id SET DEFAULT nextval('pu
 --
 
 COPY public.cart_items (cart_item_id, cart_id, product_id, price) FROM stdin;
+
 \.
 
 
@@ -240,6 +241,7 @@ COPY public.cart_items (cart_item_id, cart_id, product_id, price) FROM stdin;
 --
 
 COPY public.carts (cart_id, created_at) FROM stdin;
+
 \.
 
 

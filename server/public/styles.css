@@ -18,8 +18,8 @@
   font-size: 35px;
 }
 .image-contain {
-  height: 80%;
-  width: 80%;
+  height: 100%;
+  width: 100%;
   object-fit: contain;
 }
 .image-detail {
@@ -28,7 +28,9 @@
 }
 .image-container-cart {
   height: 100%;
-  width: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .image-container-list {
   display: flex;
@@ -135,4 +137,33 @@
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.quantity-box {
+  display: flex;
+  justify-content: center;
+  width: 50px;
+  height: 30px;
+  border: 1px solid black;
+}
+
+.arrow-box {
+  height: 30px;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+}
+
+.quantity-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+.quantity-sub-total {
+  color: grey;
+  font-weight: bold;
 }
