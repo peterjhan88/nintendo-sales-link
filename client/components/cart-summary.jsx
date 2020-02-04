@@ -6,8 +6,14 @@ export default class CartSummary extends React.Component {
     return this.props.cart.length === 0 ? 0 : this.props.cart.reduce((acc, item) => acc + item.price, 0);
   }
 
-  calculateSubTotal(productId) {
-    const singleKind = this.props.cart.filter(product => product.productId === productId);
+  calculateSubTotal(
+  
+  
+  
+  
+  
+ Id) {
+    const singleKind = this.props.cart.filter(product => product.product_id === productId);
     return singleKind.reduce((acc, item) => acc + item.price, 0);
   }
 
@@ -18,12 +24,12 @@ export default class CartSummary extends React.Component {
     var uniqueProduct = [];
     var uniqueProductProductIds = [];
     uniqueProduct.push(this.props.cart[0]);
-    uniqueProductProductIds.push(this.props.cart[0].productId);
+    uniqueProductProductIds.push(this.props.cart[0].product_id);
     for (var index = 1; index < this.props.cart.length; index++) {
       var item = this.props.cart[index];
       item.qty = 1;
-      if (!uniqueProductProductIds.includes(item.productId)) {
-        uniqueProductProductIds.push(item.productId);
+      if (!uniqueProductProductIds.includes(item.product_id)) {
+        uniqueProductProductIds.push(item.product_id);
         uniqueProduct.push(item);
       }
 
@@ -35,7 +41,7 @@ export default class CartSummary extends React.Component {
     var counter = 0;
     var cart = this.props.cart;
     for (var index = 0; index < cart.length; index++) {
-      if (cart[index].productId === productId) {
+      if (cart[index].product_id === productId) {
         counter++;
       }
     }
@@ -47,12 +53,12 @@ export default class CartSummary extends React.Component {
     const cartItems = uniqueProduct.map(item => {
       return (
         <CartSummaryItem
-          key={item.cartItemId}
+          key={item.cart_item_id}
           item={item}
           removeItem={this.props.removeItem}
           addToCart={this.props.addToCart}
           removeItemEntirely={this.props.removeItemEntirely}
-          qty={this.getQuantity(item.productId)}
+          qty={this.getQuantity(item.product_id)}
         />
       );
     });

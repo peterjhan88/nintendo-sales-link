@@ -44,7 +44,7 @@ export default class App extends React.Component {
 
   addToCart(productObject) {
     const productToAdd = {
-      productId: productObject.productId
+      productId: productObject.product_id
     };
     const headersToAdd = {
       method: 'POST',
@@ -91,7 +91,7 @@ export default class App extends React.Component {
         this.setState(previousState => {
           var newCart = previousState.cart;
           for (var index = 0; index < newCart.length; index++) {
-            if (newCart[index].cartItemId === cartItemId) {
+            if (newCart[index].cart_item_id === cartItemId) {
               newCart.splice(index, 1);
             }
           }
@@ -104,9 +104,9 @@ export default class App extends React.Component {
   }
 
   removeItemEntirely(productId) {
-    const itemsToRemove = this.state.cart.filter(item => item.productId === productId);
+    const itemsToRemove = this.state.cart.filter(item => item.product_id === productId);
     for (var index = 0; index < itemsToRemove.length; index++) {
-      this.removeItem(itemsToRemove[index].cartItemId);
+      this.removeItem(itemsToRemove[index].cart_item_id);
     }
   }
 

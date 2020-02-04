@@ -11,8 +11,8 @@ export default class CartSummaryItem extends React.Component {
         <div className='card-body d-flex flex-column card-body-cart col-4'>
           <h3 className='cart-product-name'>{this.props.item.name}</h3>
           <div className='cart-product-price'>{`$ ${(this.props.item.price / 100).toFixed(2)}`}</div>
-          <div className='mt-2 mb-auto cart-product-short-description'>{this.props.item.shortDescription}</div>
-          <button className='btn btn-warning' onClick={() => { this.props.removeItemEntirely(this.props.item.productId); }}>Remove Item Entirely</button>
+          <div className='mt-2 mb-auto cart-product-short-description'>{this.props.item.short_description}</div>
+          <button className='btn btn-warning' onClick={() => { this.props.removeItemEntirely(this.props.item.product_id); }}>Remove Item Entirely</button>
         </div>
         <div className='col-2'>
           <div className='col-12 d-flex flex-column justify-content-center'>
@@ -20,10 +20,10 @@ export default class CartSummaryItem extends React.Component {
             <div className='row d-flex align-items-center justify-content-center'>
               <div className='quantity-box ml-4'>{this.props.qty}</div>
               <div className='ml-3'>
-                <div className='arrow-box cursor-pointer mb-3' onClick={() => { this.props.addToCart({ productId: this.props.item.productId }); }} >
+                <div className='arrow-box cursor-pointer mb-3' onClick={() => { this.props.addToCart({ product_id: this.props.item.product_id }); }} >
                   <i className='fas fa-caret-up'></i>
                 </div>
-                <div className='arrow-box cursor-pointer mt-3' onClick={() => { this.props.removeItem(this.props.item.cartItemId); }} >
+                <div className='arrow-box cursor-pointer mt-3' onClick={() => { this.props.removeItem(this.props.item.cart_item_id); }} >
                   <i className='fas fa-caret-down'></i>
                 </div>
               </div>
