@@ -43,7 +43,7 @@ export default class App extends React.Component {
 
   addToCart(product) {
     const productToAdd = {
-      productId: product.productId
+      productId: product.product_id
     };
     const headersToAdd = {
       method: 'POST',

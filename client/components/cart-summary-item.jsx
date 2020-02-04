@@ -10,9 +10,9 @@ export default class CartSummaryItem extends React.Component {
         <div className='card-body d-flex flex-column card-body-cart'>
           <h3 className='cart-product-name'>{this.props.item.name}</h3>
           <div className='cart-product-price'>{`$ ${(this.props.item.price / 100).toFixed(2)}`}</div>
-          <div className='mt-2 cart-product-short-description'>{this.props.item.shortDescription}</div>
+          <div className='mt-2 cart-product-short-description'>{this.props.item.short_description}</div>
         </div>
-        <button className='btn btn-warning' onClick={() => { this.props.removeItem(this.props.item.cartItemId); }}>Remove Item</button>
+        <button className='btn btn-warning' onClick={() => { this.props.removeItem(this.props.item.cart_item_id); }}>Remove Item</button>
       </div>
     );
   }
