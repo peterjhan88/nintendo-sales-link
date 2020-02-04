@@ -20,7 +20,7 @@ app.get('/api/health-check', (req, res, next) => {
 });
 
 app.get('/api/products', (req, res, next) => {
-  db.query('select "productId", "name", "price", "image", "shortDescription" from "products"')
+  db.query('select product_id, name, price, image, short_description from products')
     .then(result => res.json(result.rows))
     .catch(err => next(err));
 });
@@ -30,7 +30,7 @@ app.get('/api/products/:productId', (req, res, next) => {
   if (productId.match(/\D/) || parseInt(productId, 10) < 1) {
     next(new ClientError(`productId=${productId} is not positive integer`, 400));
   }
-  const sql = 'select * from "products" where "productId"=$1';
+  const sql = 'select * from products where product_id=$1';
   db.query(sql, [parseInt(productId, 10)])
     .then(result => {
       result.rows.length === 0
@@ -44,15 +44,15 @@ app.get('/api/cart', (req, res, next) => {
   const sessionCartId = req.session.cartId;
   if (sessionCartId) {
     const joinSql = `
-        select  "c"."cartItemId",
+        select  "c"."cart_item_id",
                 "c"."price",
-                "p"."productId",
+                "p"."product_id",
                 "p"."image",
                 "p"."name",
-                "p"."shortDescription"
-        from "cartItems" as "c"
-        join "products" as "p" using ("productId")
-        where "c"."cartId" = $1
+                "p"."short_description"
+        from "cart_items" as "c"
+        join "products" as "p" using ("product_id")
+        where "c"."cart_id" = $1
       `;
     db.query(joinSql, [sessionCartId])
       .then(joinedTableResult => {
@@ -70,7 +70,7 @@ app.post('/api/cart', (req, res, next) => {
     next(new ClientError(`productId=${productId} is not positive integer`, 400));
   }
 
-  const sql = 'select "price" from "products" where "productId"=$1';
+  const sql = 'select price from products where product_id=$1';
   db.query(sql, [productId])
     .then(result => {
       if (result.rows.length === 0) {
@@ -84,9 +84,9 @@ app.post('/api/cart', (req, res, next) => {
         return existingCart;
       }
       const cartsSql = `
-        insert into "carts" ("cartId", "createdAt")
+        insert into "carts" ("cart_id", "created_at")
         values (default, default)
-        returning "cartId"
+        returning "cart_id"
       `;
       return (
         db.query(cartsSql)
@@ -102,9 +102,9 @@ app.post('/api/cart', (req, res, next) => {
     .then(cartIdAndPrice => {
       req.session.cartId = cartIdAndPrice.cartId;
       const cartItemsSql = `
-      insert into "cartItems" ("cartId", "productId", "price")
+      insert into "cart_items" ("cart_id", "product_id", "price")
       values ($1, $2, $3)
-      returning "cartItemId"
+      returning "cart_item_id"
       `;
       return (
         db.query(cartItemsSql, [cartIdAndPrice.cartId, productId, cartIdAndPrice.price])
@@ -112,15 +112,15 @@ app.post('/api/cart', (req, res, next) => {
     })
     .then(cartItemsResult => {
       const joinSql = `
-        select  "c"."cartItemId",
+        select  "c"."cart_item_id",
                 "c"."price",
-                "p"."productId",
+                "p"."product_id",
                 "p"."image",
                 "p"."name",
-                "p"."shortDescription"
-        from "cartItems" as "c"
-        join "products" as "p" using ("productId")
-        where "c"."cartItemId" = $1
+                "p"."short_description"
+        from "cart_items" as "c"
+        join "products" as "p" using ("product_id")
+        where "c"."cartItem_id" = $1
       `;
       return (
         db.query(joinSql, [cartItemsResult.rows[0].cartItemId])
@@ -144,7 +144,7 @@ app.post('/api/orders', (req, res, next) => {
   }
 
   const ordersSql = `
-    insert into "orders" ("orderId", "cartId", "name", "creditCard", "shippingAddress", "createdAt")
+    insert into "orders" ("order_id", "cart_id", "name", "credit_card", "shipping_address", "created_at")
     values (default, $1, $2, $3, $4, default)
     returning *
   `;
@@ -168,9 +168,9 @@ app.delete('/api/cartItems/:cartItemId', (req, res, next) => {
   }
 
   const cartItemsSql = `
-    delete from "cartItems"
-    where "cartItemId"=$1
-    returning "cartItemId"
+    delete from "cart_items"
+    where "cart_item_id"=$1
+    returning "cart_item_id"
   `;
   db.query(cartItemsSql, [cartItemId])
     .then(result => {
