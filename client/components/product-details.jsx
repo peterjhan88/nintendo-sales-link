@@ -1,25 +1,39 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
+import BackButton from './back-button';
 
-export default class ProductDetails extends React.Component {
+class ProductDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       product: null
     };
-    this.handleBackClick = this.handleBackClick.bind(this);
-    this.handleAddButtonClick = this.handleAddButtonClick.bind(this);
+    this.addToCart = this.addToCart.bind(this);
   }
 
-  handleBackClick() {
-    this.props.setView('catalog', {});
-  }
-
-  handleAddButtonClick() {
-    this.props.addToCart({ product_id: this.props.params.productId });
+  addToCart() {
+    const productToAdd = {
+      productId: this.props.match.params.productId
+    };
+    const headersToAdd = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(productToAdd)
+    };
+    fetch('/api/cart', headersToAdd)
+      .then(response => response.json())
+      .then(jsonData => {
+        this.props.addToCart(jsonData);
+      })
+      .catch(err => {
+        console.error(err);
+      });
   }
 
   componentDidMount() {
-    fetch(`/api/products/${this.props.params.productId}`)
+    fetch(`/api/products/${this.props.match.params.productId}`)
       .then(response => response.json())
       .then(jsonData => {
         this.setState({ product: jsonData });
@@ -33,18 +47,13 @@ export default class ProductDetails extends React.Component {
       : (
         <div className='d-flex align-items-center justify-content-center flex-wrap card col-11 mx-5 my-3 py-3 bg-light'>
           <div className='row d-flex align-items-center justify-content-around'>
-            <div
-              className='col-12 back-to-catalog my-3 cursor-pointer'
-              onClick={this.handleBackClick}
-            >
-              <i className='fas fa-chevron-left'></i>{' Back to catalog'}
-            </div>
+            <BackButton />
             <img src={this.state.product.image} alt={this.state.product.name} className='image-detail'/>
             <div className='col-4'>
               <h3>{this.state.product.name}</h3>
               <div className='text-price text-weight-bold'>{`$ ${(this.state.product.price / 100).toFixed(2)}`}</div>
               <div className='text-short-description'>{this.state.product.short_description}</div>
-              <div className="btn btn-light border border-dark" onClick={this.handleAddButtonClick}>Add to Cart</div>
+              <div className="btn btn-light border border-dark" onClick={this.addToCart}>Add to Cart</div>
             </div>
           </div>
           <div className='col-11 my-3'>{this.state.product.long_description}</div>
@@ -52,3 +61,4 @@ export default class ProductDetails extends React.Component {
       );
   }
 }
+export default withRouter(ProductDetails);

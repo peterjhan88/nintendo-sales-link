@@ -1,7 +1,8 @@
 import React from 'react';
 import ProductListItem from './product-list-item';
+import { withRouter } from 'react-router-dom';
 
-export default class ProductList extends React.Component {
+class ProductList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -32,14 +33,15 @@ export default class ProductList extends React.Component {
           name={product.name}
           price={product.price}
           shortDescription={product.short_description}
-          onClick={this.props.setView}
         />
       );
     });
     return (
-      <div className='row flex-wrap justify-content-around px-3 py-3 bg-light col-12'>
+      <div className='row flex-wrap justify-content-around py-3 bg-light'>
         {allProducts}
       </div>
     );
   }
 }
+
+export default withRouter(ProductList);

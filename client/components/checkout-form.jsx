@@ -1,6 +1,8 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
+import BackButton from './back-button';
 
-export default class CheckoutForm extends React.Component {
+class CheckoutForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,8 +25,27 @@ export default class CheckoutForm extends React.Component {
     orderDetails.name = this.state.name;
     orderDetails.creditCard = this.state.creditCard.replace(' ', '');
     orderDetails.shippingAddress = this.state.shippingAddress;
-    this.props.placeOrder(orderDetails);
-    this.props.setView('catalog', {});
+    const headersToOrder = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(orderDetails)
+    };
+    fetch('/api/orders', headersToOrder)
+      .then(response => response.json())
+      .then(jsonData => {
+        this.setState({
+          name: '',
+          creditCard: '',
+          shippingAddress: ''
+        });
+        this.props.placeOrder();
+        this.props.history.push('/');
+      })
+      .catch(err => {
+        console.error(err);
+      });
     return true;
   }
 
@@ -62,11 +83,7 @@ export default class CheckoutForm extends React.Component {
   render() {
     return (
       <div className='cart-items-container col-11 mx-auto'>
-        <div className='col-12 back-to-catalog my-3 cursor-pointer'
-          onClick={() => this.props.setView('catalog', {})}
-        >
-          <i className='fas fa-chevron-left'></i>{' Back to catalog'}
-        </div>
+        <BackButton />
         <div className='col-12 cart-title'>My Cart</div>
         <div className='order-total-price col-10 my-5 d-flex'>
           Order Total: ${(this.props.orderTotal / 100).toFixed(2)}
@@ -122,11 +139,10 @@ export default class CheckoutForm extends React.Component {
         </form>
         <div className='col-10 d-flex justify-content-start'>
           <button className='btn btn-info' onClick={this.handlePlaceOrder}>Place Order</button>
-          {
-
-          }
         </div>
       </div>
     );
   }
 }
+
+export default withRouter(CheckoutForm);
