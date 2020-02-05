@@ -37,7 +37,7 @@ class ProductList extends React.Component {
       );
     });
     return (
-      <div className='row flex-wrap justify-content-around py-3 bg-light'>
+      <div className='product-list display-background py-3 bg-light'>
         {allProducts}
       </div>
     );

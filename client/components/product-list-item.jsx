@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 class ProductListItem extends React.Component {
   render() {
     return (
-      <div className='col-md-4 my-3 pt-3 card card-list' >
+      <div className='col-md-3 mx-3 my-3 pt-3 card card-list' >
         <div
           className='image-container-list cursor-pointer'
           onClick={() => this.props.history.push(`/detail/${this.props.productId}`)}

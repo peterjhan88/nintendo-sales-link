@@ -43,20 +43,22 @@ class ProductDetails extends React.Component {
 
   render() {
 
-    return !this.state.product ? <div>loading...</div>
+    return !this.state.product ? <div className='display-background'>loading...</div>
       : (
-        <div className='d-flex align-items-center justify-content-center flex-wrap card col-11 mx-5 my-3 py-3 bg-light'>
-          <div className='row d-flex align-items-center justify-content-around'>
-            <BackButton />
-            <img src={this.state.product.image} alt={this.state.product.name} className='image-detail'/>
-            <div className='col-4'>
-              <h3>{this.state.product.name}</h3>
-              <div className='text-price text-weight-bold'>{`$ ${(this.state.product.price / 100).toFixed(2)}`}</div>
-              <div className='text-short-description'>{this.state.product.short_description}</div>
-              <div className="btn btn-light border border-dark" onClick={this.addToCart}>Add to Cart</div>
+        <div className='display-background product-detail-container px-3'>
+          <BackButton />
+          <div className='product-detail-card card col-11 mx-5 my-3 pt-3'>
+            <div className='row d-flex align-items-center justify-content-around'>
+              <img src={this.state.product.image} alt={this.state.product.name} className='image-detail'/>
+              <div className='col-4'>
+                <h3>{this.state.product.name}</h3>
+                <div className='text-price text-weight-bold'>{`$ ${(this.state.product.price / 100).toFixed(2)}`}</div>
+                <div className='text-short-description mb-3'>{this.state.product.short_description}</div>
+                <div className="btn btn-info border border-dark" onClick={this.addToCart}>Add to Cart</div>
+              </div>
             </div>
+            <div className='col-11 my-3'>{this.state.product.long_description}</div>
           </div>
-          <div className='col-11 my-3'>{this.state.product.long_description}</div>
         </div>
       );
   }

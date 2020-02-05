@@ -108,7 +108,7 @@ class CartSummary extends React.Component {
     });
 
     return (
-      <div className='cart-items-container col-11 mx-auto'>
+      <div className='cart-items-container display-background col-12 px-5'>
         <BackButton />
         <div className='cart-title'>My Cart</div>
         {

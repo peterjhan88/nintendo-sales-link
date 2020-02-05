@@ -1,6 +1,29 @@
-.header-height {
-  height: 8vh;
+.display-background {
+  background-image: url('./images/zelda-botw-background.jpg');
+  background-position: top;
+  background-attachment: fixed;
 }
+.product-list {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+}
+
+.header-nav {
+  width: 100%;
+  max-height: 10vh;
+  display: flex;
+  align-items: center;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+.header-logo-container {
+  display: flex;
+  align-items: center;
+  flex-flow: row nowrap;
+  justify-content: center;
+}
+
 .header-logo {
   display: flex;
   align-items: center;
@@ -44,6 +67,7 @@
   overflow: hidden;
   display: flex;
   align-items: center;
+  background: rgba(255,255,255,0.3);
 }
 .card-title {
   font-size: 1.7rem;
@@ -56,6 +80,7 @@
   display: flex;
   width: 100%;
   flex-flow: row;
+  background: rgba(255,255,255,0.3);
 }
 .qty-control {
   display: flex;
@@ -81,9 +106,8 @@
 }
 
 .back-to-catalog {
-  height: 30px;
+  height: 50px;
   font-size: 20px;
-  color: grey;
 }
 .shopping-cart {
   font-size: 35px;
@@ -95,6 +119,8 @@
   flex-flow: row wrap;
   justify-content: center;
   align-items: center;
+  height: 90vh;
+  overflow: auto;
 }
 .cart-title,
 .empty-cart {
@@ -128,7 +154,6 @@
 .order-total-price {
   font-size: 30px;
   font-weight: bold;
-  color: grey;
 }
 
 .order-input {
@@ -190,4 +215,24 @@
 .quantity-sub-total {
   color: grey;
   font-weight: bold;
+}
+
+.checkout-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255,255,255,0.3);
+}
+
+.product-detail-container {
+  height: 90vh;
+  overflow: auto;
+}
+
+.product-detail-card {
+  display: flex;
+  align-items: center;
+  flex-flow: row wrap;
+  background: rgba(255,255,255,0.3);
 }
