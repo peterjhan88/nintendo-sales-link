@@ -1,10 +1,11 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 
-export default class CartSummaryItem extends React.Component {
+class CartSummaryItem extends React.Component {
 
   render() {
     return (
-      <div className='col-11 my-3 py-3 d-flex align-items-center justify-content-center card row card-cart'>
+      <div className='my-3 py-3 card card-cart'>
         <div className='image-container-cart col-5'>
           <img src={this.props.item.image} alt={this.props.item.name} className='image-contain'/>
         </div>
@@ -15,17 +16,15 @@ export default class CartSummaryItem extends React.Component {
           <button className='btn btn-warning' onClick={() => { this.props.removeItemEntirely(this.props.item.product_id); }}>Remove Item Entirely</button>
         </div>
         <div className='col-2'>
-          <div className='col-12 d-flex flex-column justify-content-center'>
-            <div className='w-100 quantity-title mb-4' >Quantity</div>
-            <div className='row d-flex align-items-center justify-content-center'>
-              <div className='quantity-box ml-4'>{this.props.qty}</div>
-              <div className='ml-3'>
-                <div className='arrow-box cursor-pointer mb-3' onClick={() => { this.props.addToCart({ product_id: this.props.item.product_id }); }} >
-                  <i className='fas fa-caret-up'></i>
-                </div>
-                <div className='arrow-box cursor-pointer mt-3' onClick={() => { this.props.removeItem(this.props.item.cart_item_id); }} >
-                  <i className='fas fa-caret-down'></i>
-                </div>
+          <div className='col-12'>
+            <div className='w-100 mb-3 quantity-title' >Quantity</div>
+            <div className='qty-control'>
+              <div className='arrow-box cursor-pointer' onClick={() => { this.props.removeItem(this.props.item.cart_item_id); }} >
+                <i className='fas fa-minus'></i>
+              </div>
+              <div className='quantity-box'>{this.props.qty}</div>
+              <div className='arrow-box cursor-pointer' onClick={() => { this.props.addToCart(this.props.item.product_id); }} >
+                <i className='fas fa-plus'></i>
               </div>
             </div>
           </div>
@@ -38,3 +37,5 @@ export default class CartSummaryItem extends React.Component {
     );
   }
 }
+
+export default withRouter(CartSummaryItem);
