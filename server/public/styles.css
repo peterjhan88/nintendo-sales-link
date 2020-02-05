@@ -63,6 +63,9 @@
   align-items: center;
   flex-flow: row wrap;
 }
+.qty-container {
+  align-self: center;
+}
 
 .card-body-list-item {
   width: 90%;

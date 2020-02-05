@@ -15,17 +15,15 @@ class CartSummaryItem extends React.Component {
           <div className='mt-2 mb-auto cart-product-short-description'>{this.props.item.short_description}</div>
           <button className='btn btn-warning' onClick={() => { this.props.removeItemEntirely(this.props.item.product_id); }}>Remove Item Entirely</button>
         </div>
-        <div className='col-2'>
-          <div className='col-12'>
-            <div className='w-100 mb-3 quantity-title' >Quantity</div>
-            <div className='qty-control'>
-              <div className='arrow-box cursor-pointer' onClick={() => { this.props.removeItem(this.props.item.cart_item_id); }} >
-                <i className='fas fa-minus'></i>
-              </div>
-              <div className='quantity-box'>{this.props.qty}</div>
-              <div className='arrow-box cursor-pointer' onClick={() => { this.props.addToCart(this.props.item.product_id); }} >
-                <i className='fas fa-plus'></i>
-              </div>
+        <div className='col-2 qty-container'>
+          <div className='w-100 mb-3 quantity-title' >Quantity</div>
+          <div className='qty-control'>
+            <div className='arrow-box cursor-pointer' onClick={() => { this.props.removeItem(this.props.item.cart_item_id); }} >
+              <i className='fas fa-minus'></i>
+            </div>
+            <div className='quantity-box'>{this.props.qty}</div>
+            <div className='arrow-box cursor-pointer' onClick={() => { this.props.addToCart(this.props.item.product_id); }} >
+              <i className='fas fa-plus'></i>
             </div>
           </div>
           <div className='border-for-workspace-check quantity-sub-total my-3'>
