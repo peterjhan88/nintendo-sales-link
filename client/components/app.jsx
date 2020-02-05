@@ -10,10 +10,6 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      view: {
-        name: 'catalog',
-        params: {}
-      },
       cart: []
     };
     this.addToCart = this.addToCart.bind(this);
@@ -81,7 +77,6 @@ export default class App extends React.Component {
         </Route>
         <Route exact={true} path='/detail/:productId'>
           <ProductDetails
-            params={this.state.view.params}
             addToCart={this.addToCart}
           />
         </Route>
