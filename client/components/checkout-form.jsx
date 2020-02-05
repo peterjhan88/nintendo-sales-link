@@ -82,10 +82,10 @@ class CheckoutForm extends React.Component {
 
   render() {
     return (
-      <div className='cart-items-container col-11 mx-auto'>
+      <div className='cart-items-container display-background col-12 px-5'>
         <BackButton />
         <div className='col-12 cart-title'>My Cart</div>
-        <div className='order-total-price col-10 my-5 d-flex'>
+        <div className='order-total-price col-10 mb-3 d-flex'>
           Order Total: ${(this.props.orderTotal / 100).toFixed(2)}
         </div>
         <form className='d-flex flex-wrap col-10'>
