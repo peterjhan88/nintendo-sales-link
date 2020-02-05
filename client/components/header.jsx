@@ -6,7 +6,7 @@ export default class Header extends React.Component {
       <header className='bg-dark d-flex header-height align-items-center'>
         <div className='ml-3 row mr-auto cursor-pointer' onClick={() => this.props.setView('catalog', {})}>
           <div className='header-logo'><i className="fas fa-dollar-sign"></i></div>
-          <div className='header-name'>Nintendo Sales - Zelda</div>
+          <div className='header-name'>Nintendo Sales - Link</div>
         </div>
         <div className='mr-5 shopping-cart cursor-pointer' onClick={() => this.props.setView('cart', {})} >
           <span>{this.props.cartItemCount} items </span>
