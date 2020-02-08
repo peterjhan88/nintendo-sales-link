@@ -9,9 +9,9 @@ class Header extends React.Component {
           <div className='header-logo'><img src='/images/triforce-icon-dark.png'/></div>
           <div className='header-name'>Nintendo Sales - Link</div>
         </div>
-        <div className='shopping-cart cursor-pointer ml-5' onClick={() => this.props.history.push('/cart')} >
-          <span>{this.props.cartItemCount} items </span>
+        <div className='shopping-cart cursor-pointer' onClick={() => this.props.history.push('/cart')} >
           <i className='fas fa-shopping-cart'></i>
+          <div className='ml-3 current-items-qty-header'>{this.props.cartItemCount}</div>
         </div>
       </header>
     );

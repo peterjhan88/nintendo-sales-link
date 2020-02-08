@@ -47,7 +47,7 @@ class ProductDetails extends React.Component {
       : (
         <div className='display-background product-detail-container px-3'>
           <BackButton />
-          <div className='product-detail-card card col-11 col-lg-8 mx-auto my-3 pt-3'>
+          <div className='product-detail-card card col-12 col-lg-8 mx-auto my-3 pt-3'>
             <div className='row d-flex align-items-center justify-content-around'>
               <img
                 src={this.state.product.image}
