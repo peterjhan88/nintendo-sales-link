@@ -1,5 +1,5 @@
 {
-  "name": "wicked-sales-js-solution",
+  "name": "nintendo-sales-link",
   "version": "1.0.0",
   "description": "Reference implementation of a Node.js &amp; React shopping cart app.",
   "main": "server/index.js",
