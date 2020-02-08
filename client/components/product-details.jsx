@@ -47,17 +47,21 @@ class ProductDetails extends React.Component {
       : (
         <div className='display-background product-detail-container px-3'>
           <BackButton />
-          <div className='product-detail-card card col-11 mx-5 my-3 pt-3'>
+          <div className='product-detail-card card col-11 col-lg-8 mx-auto my-3 pt-3'>
             <div className='row d-flex align-items-center justify-content-around'>
-              <img src={this.state.product.image} alt={this.state.product.name} className='image-detail'/>
-              <div className='col-4'>
+              <img
+                src={this.state.product.image}
+                alt={this.state.product.name}
+                className='image-detail col-lg-6 col-12'
+              />
+              <div className='col-12 col-lg-6'>
                 <h3>{this.state.product.name}</h3>
                 <div className='text-price text-weight-bold'>{`$ ${(this.state.product.price / 100).toFixed(2)}`}</div>
                 <div className='text-short-description mb-3'>{this.state.product.short_description}</div>
                 <div className="btn btn-info border border-dark" onClick={this.addToCart}>Add to Cart</div>
               </div>
             </div>
-            <div className='col-11 my-3'>{this.state.product.long_description}</div>
+            <div className='px-3 my-3'>{this.state.product.long_description}</div>
           </div>
         </div>
       );

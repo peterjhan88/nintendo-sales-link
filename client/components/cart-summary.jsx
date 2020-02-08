@@ -9,6 +9,7 @@ class CartSummary extends React.Component {
     this.handleClickPlaceOrder = this.handleClickPlaceOrder.bind(this);
     this.handleClickAddToCart = this.handleClickAddToCart.bind(this);
     this.handleClickRemoveItem = this.handleClickRemoveItem.bind(this);
+    this.handleClickRemoveItemEntirely = this.handleClickRemoveItemEntirely.bind(this);
   }
 
   calculateTotal() {
@@ -92,6 +93,14 @@ class CartSummary extends React.Component {
       });
   }
 
+  handleClickRemoveItemEntirely(productId) {
+    const itemsToRemove = this.props.cart.filter(item => item.product_id === productId);
+    for (var index = 0; index < itemsToRemove.length; index++) {
+      this.handleClickRemoveItem(itemsToRemove[index].cart_item_id);
+    }
+    this.props.removeItemEntirely(productId);
+  }
+
   render() {
     var uniqueProduct = this.getUniqueProduct(this.props.cart);
     const cartItems = uniqueProduct.map(item => {
@@ -101,7 +110,7 @@ class CartSummary extends React.Component {
           item={item}
           removeItem={this.handleClickRemoveItem}
           addToCart={this.handleClickAddToCart}
-          removeItemEntirely={this.props.removeItemEntirely}
+          removeItemEntirely={this.handleClickRemoveItemEntirely}
           qty={this.getQuantity(item.product_id)}
         />
       );
@@ -110,10 +119,10 @@ class CartSummary extends React.Component {
     return (
       <div className='cart-items-container display-background col-12 px-5'>
         <BackButton />
-        <div className='cart-title'>My Cart</div>
+        <div className='cart-title px-3'>My Cart</div>
         {
           cartItems.length === 0
-            ? <div className='empty-cart'>No Item to Display</div>
+            ? <div className='empty-cart col-12'>No Item to Display</div>
             : <div className='d-flex justify-content-center flex-wrap'>{cartItems}</div>
         }
         <div className='row col-10 d-flex align-items-center'>
