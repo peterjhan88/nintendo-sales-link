@@ -5,17 +5,17 @@ class CartSummaryItem extends React.Component {
 
   render() {
     return (
-      <div className='my-3 py-3 card card-cart'>
-        <div className='image-container-cart col-5'>
+      <div className='my-3 py-3 card card-cart col-lg-12 col-12'>
+        <div className='image-container-cart col-lg-5 col-12'>
           <img src={this.props.item.image} alt={this.props.item.name} className='image-contain'/>
         </div>
-        <div className='card-body d-flex flex-column card-body-cart col-4'>
+        <div className='card-body d-flex flex-column card-body-cart col-lg-4 col-12'>
           <h3 className='cart-product-name'>{this.props.item.name}</h3>
           <div className='cart-product-price'>{`$ ${(this.props.item.price / 100).toFixed(2)}`}</div>
           <div className='mt-2 mb-auto cart-product-short-description'>{this.props.item.short_description}</div>
           <button className='btn btn-warning' onClick={() => { this.props.removeItemEntirely(this.props.item.product_id); }}>Remove Item Entirely</button>
         </div>
-        <div className='col-2 qty-container'>
+        <div className='col-lg-3 col-12 qty-container'>
           <div className='w-100 mb-3 quantity-title' >Quantity</div>
           <div className='qty-control'>
             <div className='arrow-box cursor-pointer' onClick={() => { this.props.removeItem(this.props.item.cart_item_id); }} >

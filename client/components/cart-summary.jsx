@@ -9,6 +9,7 @@ class CartSummary extends React.Component {
     this.handleClickPlaceOrder = this.handleClickPlaceOrder.bind(this);
     this.handleClickAddToCart = this.handleClickAddToCart.bind(this);
     this.handleClickRemoveItem = this.handleClickRemoveItem.bind(this);
+    this.handleClickRemoveItemEntirely = this.handleClickRemoveItemEntirely.bind(this);
   }
 
   calculateTotal() {
@@ -92,6 +93,14 @@ class CartSummary extends React.Component {
       });
   }
 
+  handleClickRemoveItemEntirely(productId) {
+    const itemsToRemove = this.props.cart.filter(item => item.product_id === productId);
+    for (var index = 0; index < itemsToRemove.length; index++) {
+      this.handleClickRemoveItem(itemsToRemove[index].cart_item_id);
+    }
+    this.props.removeItemEntirely(productId);
+  }
+
   render() {
     var uniqueProduct = this.getUniqueProduct(this.props.cart);
     const cartItems = uniqueProduct.map(item => {
@@ -101,24 +110,24 @@ class CartSummary extends React.Component {
           item={item}
           removeItem={this.handleClickRemoveItem}
           addToCart={this.handleClickAddToCart}
-          removeItemEntirely={this.props.removeItemEntirely}
+          removeItemEntirely={this.handleClickRemoveItemEntirely}
           qty={this.getQuantity(item.product_id)}
         />
       );
     });
 
     return (
-      <div className='cart-items-container display-background col-12 px-5'>
+      <div className='cart-items-container display-background col-12 col-lg-12'>
         <BackButton />
-        <div className='cart-title'>My Cart</div>
+        <div className='cart-title px-3 col-12 col-lg-12'>My Cart</div>
         {
           cartItems.length === 0
-            ? <div className='empty-cart'>No Item to Display</div>
-            : <div className='d-flex justify-content-center flex-wrap'>{cartItems}</div>
+            ? <div className='empty-cart col-12 col-lg-9'>No Item to Display</div>
+            : <div className='col-12 col-lg-9 d-flex justify-content-center flex-wrap'>{cartItems}</div>
         }
-        <div className='row col-10 d-flex align-items-center'>
-          <div className='cart-total-price col-10 my-5 d-flex'>Grand Total: ${(this.calculateTotal() / 100).toFixed(2)}</div>
-          <button className='btn btn-info button-height col-2' onClick={this.handleClickPlaceOrder}>Place Order</button>
+        <div className='col-12 col-lg-3 pb-5 grand-total-container'>
+          <div className='col-12 my-4 cart-total-price d-flex'>Grand Total: ${(this.calculateTotal() / 100).toFixed(2)}</div>
+          <button className='col-12 col-lg-8 btn btn-info button-height' onClick={this.handleClickPlaceOrder}>Place Order</button>
         </div>
       </div>
     );
