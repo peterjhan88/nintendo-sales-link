@@ -5,17 +5,20 @@ import ProductList from './product-list';
 import ProductDetails from './product-details';
 import CartSummary from './cart-summary';
 import CheckoutForm from './checkout-form';
+import WarningModal from './warning-modal';
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cart: []
+      cart: [],
+      firstVisit: true
     };
     this.addToCart = this.addToCart.bind(this);
     this.placeOrder = this.placeOrder.bind(this);
     this.removeItem = this.removeItem.bind(this);
     this.removeItemEntirely = this.removeItemEntirely.bind(this);
+    this.removeModalWithConsent = this.removeModalWithConsent.bind(this);
   }
 
   getCartItems() {
@@ -64,16 +67,25 @@ export default class App extends React.Component {
     this.getCartItems();
   }
 
+  removeModalWithConsent() {
+    this.setState({ firstVisit: false });
+  }
+
   render() {
     return (
       <Router>
         <Route path='/'>
+          {
+            this.state.firstVisit
+              ? <WarningModal removeModalWithConsent={this.removeModalWithConsent} />
+              : <></>
+          }
           <Header
             cartItemCount={this.state.cart.length}
           />
         </Route>
         <Route exact={true} path='/'>
-          <ProductList />
+          <ProductList additionalClass={this.state.firstVisit ? ' prevent-scrolling' : ''}/>
         </Route>
         <Route exact={true} path='/detail/:productId'>
           <ProductDetails

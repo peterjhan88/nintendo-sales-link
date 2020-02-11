@@ -63,6 +63,10 @@ class CheckoutForm extends React.Component {
 
   handleChangeCreditCard(event) {
     let creditCard = event.target.value;
+    if (creditCard === '') {
+      this.setState({ creditCard: creditCard });
+      return;
+    }
     creditCard = creditCard.match(/\d/g);
     let formatted = '';
     for (var index = 0; index < creditCard.length; index++) {
@@ -82,6 +86,9 @@ class CheckoutForm extends React.Component {
   }
 
   validateCreditCard(creditCard) {
+    if (!creditCard) {
+      return false;
+    }
     if (creditCard.match(/\d/g).length === 16) {
       return true;
     }
@@ -148,7 +155,7 @@ class CheckoutForm extends React.Component {
                   : <div className='px-3 invalid-input-comment'>Plz provide valid information</div>
               }
             </div>
-            <div className='form-group col-12'>
+            <div className='form-group col-12 address-height-fix '>
               <label className='col-12 input-title'>Shipping Address</label>
               <textarea
                 type='text'
