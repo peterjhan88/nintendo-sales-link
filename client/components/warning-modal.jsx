@@ -5,7 +5,7 @@ class WarningModal extends React.Component {
     return (
       <div className='modal-shadow'>
         <div className='modal-warning-body py-3 col-12 col-lg-4'>
-          <div className='modal-warning-title'>
+          <div className='modal-warning-title mb-3'>
             Warning!
           </div>
           <div className='modal-warning-content px-2'>
