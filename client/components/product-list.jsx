@@ -1,7 +1,8 @@
 import React from 'react';
 import ProductListItem from './product-list-item';
+import { withRouter } from 'react-router-dom';
 
-export default class ProductList extends React.Component {
+class ProductList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -26,20 +27,21 @@ export default class ProductList extends React.Component {
     const allProducts = this.state.products.map(product => {
       return (
         <ProductListItem
-          key={product.productId}
-          productId={product.productId}
+          key={product.product_id}
+          productId={product.product_id}
           imgUrl={product.image}
           name={product.name}
           price={product.price}
-          shortDescription={product.shortDescription}
-          onClick={this.props.setView}
+          shortDescription={product.short_description}
         />
       );
     });
     return (
-      <div className='row flex-wrap justify-content-around px-3 py-3 bg-light col-12'>
+      <div className='product-list display-background py-3 bg-light'>
         {allProducts}
       </div>
     );
   }
 }
+
+export default withRouter(ProductList);

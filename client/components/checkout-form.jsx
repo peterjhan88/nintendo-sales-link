@@ -1,15 +1,22 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
+import BackButton from './back-button';
 
-export default class CheckoutForm extends React.Component {
+class CheckoutForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       name: '',
       creditCard: '',
-      shippingAddress: ''
+      shippingAddress: '',
+      nameFocusedBefore: false,
+      creditCardFocusedBefore: false,
+      shippingAddressFocusedBefore: false
     };
     this.handlePlaceOrder = this.handlePlaceOrder.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.checkFocused = this.checkFocused.bind(this);
+    this.handleChangeCreditCard = this.handleChangeCreditCard.bind(this);
   }
 
   handlePlaceOrder(event) {
@@ -21,19 +28,50 @@ export default class CheckoutForm extends React.Component {
     }
     var orderDetails = {};
     orderDetails.name = this.state.name;
-    orderDetails.creditCard = this.state.creditCard.replace(' ', '');
+    orderDetails.creditCard = this.state.creditCard.replace(/-/g, '');
     orderDetails.shippingAddress = this.state.shippingAddress;
-    this.props.placeOrder(orderDetails);
-    this.props.setView('catalog', {});
-    return true;
+    const headersToOrder = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(orderDetails)
+    };
+    fetch('/api/orders', headersToOrder)
+      .then(response => response.json())
+      .then(jsonData => {
+        this.setState({
+          name: '',
+          creditCard: '',
+          shippingAddress: ''
+        });
+        this.props.placeOrder();
+        this.props.history.push('/');
+      })
+      .catch(err => {
+        console.error(err);
+      });
   }
 
   handleChange(event) {
-    const selectedInput = event.target.getAttribute('id');
+    const selectedInput = event.target.id;
     const currentValue = event.target.value;
     const newState = {};
     newState[selectedInput] = currentValue;
     this.setState(newState);
+  }
+
+  handleChangeCreditCard(event) {
+    let creditCard = event.target.value;
+    creditCard = creditCard.match(/\d/g);
+    let formatted = '';
+    for (var index = 0; index < creditCard.length; index++) {
+      if (index !== 0 && index % 4 === 0) {
+        formatted += '-';
+      }
+      formatted += creditCard[index];
+    }
+    this.setState({ creditCard: formatted });
   }
 
   validateInputs(value) {
@@ -44,10 +82,10 @@ export default class CheckoutForm extends React.Component {
   }
 
   validateCreditCard(creditCard) {
-    if (!creditCard || creditCard.match(/[^\s|^\d]/g)) {
-      return false;
+    if (creditCard.match(/\d/g).length === 16) {
+      return true;
     }
-    return creditCard.match(/\d/g).join('').length === 16;
+    return false;
   }
 
   goodToSubmit() {
@@ -59,74 +97,83 @@ export default class CheckoutForm extends React.Component {
     );
   }
 
+  checkFocused(inputId) {
+    const key = inputId + 'FocusedBefore';
+    const newState = {};
+    newState[key] = true;
+    this.setState(newState);
+  }
+
   render() {
     return (
-      <div className='cart-items-container col-11 mx-auto'>
-        <div className='col-12 back-to-catalog my-3 cursor-pointer'
-          onClick={() => this.props.setView('catalog', {})}
-        >
-          <i className='fas fa-chevron-left'></i>{' Back to catalog'}
-        </div>
-        <div className='col-12 cart-title'>My Cart</div>
-        <div className='order-total-price col-10 my-5 d-flex'>
-          Order Total: ${(this.props.orderTotal / 100).toFixed(2)}
-        </div>
-        <form className='d-flex flex-wrap col-10'>
-          <div className='form-group flex-wrap col-12'>
-            <label className='col-12 input-title text-weight-bold'>Name</label>
-            <input
-              type='text'
-              className={this.validateInputs(this.state.name) ? 'col-8 order-input valid-input' : 'col-8 order-input invalid-input'}
-              id='name'
-              value={this.state.name}
-              onChange={this.handleChange}
-            />
-            {
-              this.validateInputs(this.state.name)
-                ? <div className='valid-input-comment ml-3'>Name is provided.</div>
-                : <div className='invalid-input-comment ml-3'>Name is not provided. Please enter name.</div>
-            }
+      <div className='checkout-container col-12 col-lg-12 mx-auto display-background'>
+        <BackButton />
+        <div className="col-12 col-lg-12">
+          <form className='checkout-form col-12 col-lg-8 mx-auto'>
+            <div className='col-12 col-lg-12 cart-title'>Order Detail</div>
+            <div className='order-total-price col-12 col-lg-12 mb-3 d-flex'>
+                Order Total: ${(this.props.orderTotal / 100).toFixed(2)}
+            </div>
+            <div className='form-group col-12'>
+              <label className='col-12 input-title text-weight-bold'>Name</label>
+              <input
+                type='text'
+                className={!this.state.nameFocusedBefore || this.validateInputs(this.state.name) ? 'col-12 order-input' : 'col-12 order-input invalid-input'}
+                id='name'
+                placeholder='First Last'
+                value={this.state.name}
+                onChange={this.handleChange}
+                onBlur={() => { this.checkFocused(event.target.id); }}
+              />
+              {
+                !this.state.nameFocusedBefore || this.validateInputs(this.state.name)
+                  ? <div className='px-3 example-comment'>{!this.state.nameFocusedBefore ? 'Example: John Doe' : ''}</div>
+                  : <div className='px-3 invalid-input-comment'>Plz provide name</div>
+              }
+            </div>
+            <div className='form-group col-12'>
+              <label className='col-12 input-title'>Credit Card Number</label>
+              <input
+                type='text'
+                className={!this.state.creditCardFocusedBefore || this.validateInputs(this.state.creditCard) ? 'col-12 order-input' : 'col-12 order-input invalid-input'}
+                id='creditCard'
+                placeholder='Credit Card Number'
+                value={this.state.creditCard}
+                onChange={this.handleChangeCreditCard}
+                onBlur={() => { this.checkFocused(event.target.id); }}
+              />
+              {
+                !this.state.creditCardFocusedBefore || this.validateCreditCard(this.state.creditCard)
+                  ? <div className='px-3 example-comment'>{!this.state.nameFocusedBefore ? 'Example: 234567890123456' : ''}</div>
+                  : <div className='px-3 invalid-input-comment'>Plz provide valid information</div>
+              }
+            </div>
+            <div className='form-group col-12'>
+              <label className='col-12 input-title'>Shipping Address</label>
+              <textarea
+                type='text'
+                className={!this.state.shippingAddressFocusedBefore || this.validateInputs(this.state.shippingAddress) ? 'col-12 order-textarea-address' : 'col-12 order-textarea-address invalid-input'}
+                id='shippingAddress'
+                value={this.state.shippingAddress}
+                onChange={this.handleChange}
+                onBlur={() => { this.checkFocused(event.target.id); }}
+                rows='4'
+              >
+              </textarea>
+              {
+                !this.state.shippingAddressFocusedBefore || this.validateInputs(this.state.shippingAddress)
+                  ? <div className='px-3 example-comment'>{!this.state.shippingAddressFocusedBefore ? 'Example: 123 Street, Los Angeles, CA' : ''}</div>
+                  : <div className='px-3 invalid-input-comment'>Plz provide valid information</div>
+              }
+            </div>
+          </form>
+          <div className='col-12 col-lg-8 mx-auto py-3 d-flex'>
+            <button className='btn btn-info place-order-button' onClick={this.handlePlaceOrder}>Place Order</button>
           </div>
-          <div className='form-group flex-wrap col-12'>
-            <label className='col-12 input-title'>Credit Card Number</label>
-            <input
-              type='text'
-              className={this.validateCreditCard(this.state.creditCard) ? 'col-8 order-input valid-input' : 'col-8 order-input invalid-input'}
-              id='creditCard'
-              value={this.state.creditCard}
-              onChange={this.handleChange}
-            />
-            {
-              this.validateCreditCard(this.state.creditCard)
-                ? <div className='valid-input-comment ml-3'>Valid credit card number</div>
-                : <div className='invalid-input-comment ml-3'>Invalid number</div>
-            }
-          </div>
-          <div className='form-group flex-wrap col-12'>
-            <label className='col-12 input-title'>Shipping Address</label>
-            <textarea
-              type='text'
-              className={this.validateInputs(this.state.shippingAddress) ? 'col-8 order-textarea-address valid-input' : 'col-8 order-textarea-address invalid-input'}
-              id='shippingAddress'
-              value={this.state.shippingAddress}
-              onChange={this.handleChange}
-              rows='4'
-            >
-            </textarea>
-            {
-              this.validateInputs(this.state.shippingAddress)
-                ? <div className='valid-input-comment ml-3'>Address is provided.</div>
-                : <div className='invalid-input-comment ml-3'>Address is not provided. Please enter address.</div>
-            }
-          </div>
-        </form>
-        <div className='col-10 d-flex justify-content-start'>
-          <button className='btn btn-info' onClick={this.handlePlaceOrder}>Place Order</button>
-          {
-
-          }
         </div>
       </div>
     );
   }
 }
+
+export default withRouter(CheckoutForm);
