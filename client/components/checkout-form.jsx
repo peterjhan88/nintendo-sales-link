@@ -16,6 +16,7 @@ class CheckoutForm extends React.Component {
     this.handlePlaceOrder = this.handlePlaceOrder.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.checkFocused = this.checkFocused.bind(this);
+    this.handleChangeCreditCard = this.handleChangeCreditCard.bind(this);
   }
 
   handlePlaceOrder(event) {
@@ -27,7 +28,7 @@ class CheckoutForm extends React.Component {
     }
     var orderDetails = {};
     orderDetails.name = this.state.name;
-    orderDetails.creditCard = this.state.creditCard.replace(' ', '');
+    orderDetails.creditCard = this.state.creditCard.replace(/-/g, '');
     orderDetails.shippingAddress = this.state.shippingAddress;
     const headersToOrder = {
       method: 'POST',
@@ -60,6 +61,19 @@ class CheckoutForm extends React.Component {
     this.setState(newState);
   }
 
+  handleChangeCreditCard(event) {
+    let creditCard = event.target.value;
+    creditCard = creditCard.match(/\d/g);
+    let formatted = '';
+    for (var index = 0; index < creditCard.length; index++) {
+      if (index !== 0 && index % 4 === 0) {
+        formatted += '-';
+      }
+      formatted += creditCard[index];
+    }
+    this.setState({ creditCard: formatted });
+  }
+
   validateInputs(value) {
     if (value === '' || value.match(/^\s*$/g)) {
       return false;
@@ -68,10 +82,10 @@ class CheckoutForm extends React.Component {
   }
 
   validateCreditCard(creditCard) {
-    if (!creditCard || creditCard.match(/[^\s|^\d]/g)) {
-      return false;
+    if (creditCard.match(/\d/g).length === 16) {
+      return true;
     }
-    return creditCard.match(/\d/g).join('').length === 16;
+    return false;
   }
 
   goodToSubmit() {
@@ -125,12 +139,12 @@ class CheckoutForm extends React.Component {
                 id='creditCard'
                 placeholder='Credit Card Number'
                 value={this.state.creditCard}
-                onChange={this.handleChange}
+                onChange={this.handleChangeCreditCard}
                 onBlur={() => { this.checkFocused(event.target.id); }}
               />
               {
                 !this.state.creditCardFocusedBefore || this.validateCreditCard(this.state.creditCard)
-                  ? <div className='px-3 example-comment'>{!this.state.nameFocusedBefore ? 'Example: 1234 1234 1234 1234 or 1234567890123456' : ''}</div>
+                  ? <div className='px-3 example-comment'>{!this.state.nameFocusedBefore ? 'Example: 234567890123456' : ''}</div>
                   : <div className='px-3 invalid-input-comment'>Plz provide valid information</div>
               }
             </div>
