@@ -173,15 +173,12 @@
   font-weight: bold;
 }
 
-.valid-input {
-  border: 5px solid green;
-}
 .invalid-input {
   border: 5px solid crimson;
 }
-.valid-input-comment {
-  color: green;
-  font-weight: bold;
+.example-comment {
+  color: black;
+  height: 24px;
 }
 .invalid-input-comment {
   color: crimson;
