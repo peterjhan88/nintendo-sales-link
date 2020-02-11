@@ -8,10 +8,15 @@ class CheckoutForm extends React.Component {
     this.state = {
       name: '',
       creditCard: '',
-      shippingAddress: ''
+      shippingAddress: '',
+      nameFocusedBefore: false,
+      creditCardFocusedBefore: false,
+      shippingAddressFocusedBefore: false
     };
     this.handlePlaceOrder = this.handlePlaceOrder.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.checkFocused = this.checkFocused.bind(this);
+    this.handleChangeCreditCard = this.handleChangeCreditCard.bind(this);
   }
 
   handlePlaceOrder(event) {
@@ -23,7 +28,7 @@ class CheckoutForm extends React.Component {
     }
     var orderDetails = {};
     orderDetails.name = this.state.name;
-    orderDetails.creditCard = this.state.creditCard.replace(' ', '');
+    orderDetails.creditCard = this.state.creditCard.replace(/-/g, '');
     orderDetails.shippingAddress = this.state.shippingAddress;
     const headersToOrder = {
       method: 'POST',
@@ -46,15 +51,27 @@ class CheckoutForm extends React.Component {
       .catch(err => {
         console.error(err);
       });
-    return true;
   }
 
   handleChange(event) {
-    const selectedInput = event.target.getAttribute('id');
+    const selectedInput = event.target.id;
     const currentValue = event.target.value;
     const newState = {};
     newState[selectedInput] = currentValue;
     this.setState(newState);
+  }
+
+  handleChangeCreditCard(event) {
+    let creditCard = event.target.value;
+    creditCard = creditCard.match(/\d/g);
+    let formatted = '';
+    for (var index = 0; index < creditCard.length; index++) {
+      if (index !== 0 && index % 4 === 0) {
+        formatted += '-';
+      }
+      formatted += creditCard[index];
+    }
+    this.setState({ creditCard: formatted });
   }
 
   validateInputs(value) {
@@ -65,10 +82,10 @@ class CheckoutForm extends React.Component {
   }
 
   validateCreditCard(creditCard) {
-    if (!creditCard || creditCard.match(/[^\s|^\d]/g)) {
-      return false;
+    if (creditCard.match(/\d/g).length === 16) {
+      return true;
     }
-    return creditCard.match(/\d/g).join('').length === 16;
+    return false;
   }
 
   goodToSubmit() {
@@ -78,6 +95,13 @@ class CheckoutForm extends React.Component {
       this.validateCreditCard(this.state.creditCard) &&
       this.props.numberOfItemsInCart !== 0
     );
+  }
+
+  checkFocused(inputId) {
+    const key = inputId + 'FocusedBefore';
+    const newState = {};
+    newState[key] = true;
+    this.setState(newState);
   }
 
   render() {
@@ -94,47 +118,52 @@ class CheckoutForm extends React.Component {
               <label className='col-12 input-title text-weight-bold'>Name</label>
               <input
                 type='text'
-                className={this.validateInputs(this.state.name) ? 'col-12 order-input valid-input' : 'col-12 order-input invalid-input'}
+                className={!this.state.nameFocusedBefore || this.validateInputs(this.state.name) ? 'col-12 order-input' : 'col-12 order-input invalid-input'}
                 id='name'
+                placeholder='First Last'
                 value={this.state.name}
                 onChange={this.handleChange}
+                onBlur={() => { this.checkFocused(event.target.id); }}
               />
               {
-                this.validateInputs(this.state.name)
-                  ? <div className='valid-input-comment'>Name is provided.</div>
-                  : <div className='invalid-input-comment'>Name is not provided. Please enter name.</div>
+                !this.state.nameFocusedBefore || this.validateInputs(this.state.name)
+                  ? <div className='px-3 example-comment'>{!this.state.nameFocusedBefore ? 'Example: John Doe' : ''}</div>
+                  : <div className='px-3 invalid-input-comment'>Plz provide name</div>
               }
             </div>
             <div className='form-group col-12'>
               <label className='col-12 input-title'>Credit Card Number</label>
               <input
                 type='text'
-                className={this.validateCreditCard(this.state.creditCard) ? 'col-12 order-input valid-input' : 'col-12 order-input invalid-input'}
+                className={!this.state.creditCardFocusedBefore || this.validateInputs(this.state.creditCard) ? 'col-12 order-input' : 'col-12 order-input invalid-input'}
                 id='creditCard'
+                placeholder='Credit Card Number'
                 value={this.state.creditCard}
-                onChange={this.handleChange}
+                onChange={this.handleChangeCreditCard}
+                onBlur={() => { this.checkFocused(event.target.id); }}
               />
               {
-                this.validateCreditCard(this.state.creditCard)
-                  ? <div className='valid-input-comment'>Valid credit card number</div>
-                  : <div className='invalid-input-comment'>Invalid number</div>
+                !this.state.creditCardFocusedBefore || this.validateCreditCard(this.state.creditCard)
+                  ? <div className='px-3 example-comment'>{!this.state.nameFocusedBefore ? 'Example: 234567890123456' : ''}</div>
+                  : <div className='px-3 invalid-input-comment'>Plz provide valid information</div>
               }
             </div>
             <div className='form-group col-12'>
               <label className='col-12 input-title'>Shipping Address</label>
               <textarea
                 type='text'
-                className={this.validateInputs(this.state.shippingAddress) ? 'col-12 order-textarea-address valid-input' : 'col-12 order-textarea-address invalid-input'}
+                className={!this.state.shippingAddressFocusedBefore || this.validateInputs(this.state.shippingAddress) ? 'col-12 order-textarea-address' : 'col-12 order-textarea-address invalid-input'}
                 id='shippingAddress'
                 value={this.state.shippingAddress}
                 onChange={this.handleChange}
+                onBlur={() => { this.checkFocused(event.target.id); }}
                 rows='4'
               >
               </textarea>
               {
-                this.validateInputs(this.state.shippingAddress)
-                  ? <div className='valid-input-comment'>Address is provided.</div>
-                  : <div className='invalid-input-comment'>Address is not provided. Please enter address.</div>
+                !this.state.shippingAddressFocusedBefore || this.validateInputs(this.state.shippingAddress)
+                  ? <div className='px-3 example-comment'>{!this.state.shippingAddressFocusedBefore ? 'Example: 123 Street, Los Angeles, CA' : ''}</div>
+                  : <div className='px-3 invalid-input-comment'>Plz provide valid information</div>
               }
             </div>
           </form>
