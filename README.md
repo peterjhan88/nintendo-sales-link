@@ -14,7 +14,7 @@ Initially started as Wicked Sales. Will be re-themed soon. A full-stack e-commer
 
 ## Live Demo
 
-Will be online soon.
+See it in Live(https://nintendo-sales-link.peterjhan.com)!
 
 ## Features
 
