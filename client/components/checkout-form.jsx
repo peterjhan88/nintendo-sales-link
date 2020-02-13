@@ -62,6 +62,7 @@ class CheckoutForm extends React.Component {
   }
 
   handleChangeCreditCard(event) {
+    const maxCreditCardDigits = 16;
     let creditCard = event.target.value;
     if (creditCard === '') {
       this.setState({ creditCard: creditCard });
@@ -69,7 +70,7 @@ class CheckoutForm extends React.Component {
     }
     creditCard = creditCard.match(/\d/g);
     let formatted = '';
-    for (var index = 0; index < creditCard.length; index++) {
+    for (var index = 0; index < creditCard.length && index < maxCreditCardDigits; index++) {
       if (index !== 0 && index % 4 === 0) {
         formatted += '-';
       }

@@ -25,11 +25,12 @@ class CartSummary extends React.Component {
     if (cart.length === 0) {
       return [];
     }
+    const lastIndex = cart.length - 1;
     var uniqueProduct = [];
     var uniqueProductProductIds = [];
-    uniqueProduct.push(this.props.cart[0]);
-    uniqueProductProductIds.push(this.props.cart[0].product_id);
-    for (var index = 1; index < this.props.cart.length; index++) {
+    uniqueProduct.push(this.props.cart[lastIndex]);
+    uniqueProductProductIds.push(this.props.cart[lastIndex].product_id);
+    for (var index = lastIndex - 1; index >= 0; index--) {
       var item = this.props.cart[index];
       item.qty = 1;
       if (!uniqueProductProductIds.includes(item.product_id)) {
@@ -83,7 +84,14 @@ class CartSummary extends React.Component {
       });
   }
 
-  handleClickRemoveItem(cartItemId) {
+  handleClickRemoveItem(productId) {
+    const cart = this.props.cart;
+    for (var index = 0; index < cart.length; index++) {
+      if (cart[index].product_id === productId) {
+        var cartItemId = cart[index].cart_item_id;
+        break;
+      }
+    }
     fetch(`/api/cartItems/${cartItemId}`, { method: 'DELETE' })
       .then(response => {
         this.props.removeItem(cartItemId);

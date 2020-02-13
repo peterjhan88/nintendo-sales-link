@@ -232,7 +232,6 @@ ALTER TABLE ONLY public.products ALTER COLUMN product_id SET DEFAULT nextval('pu
 --
 
 COPY public.cart_items (cart_item_id, cart_id, product_id, price) FROM stdin;
-
 \.
 
 
@@ -241,7 +240,6 @@ COPY public.cart_items (cart_item_id, cart_id, product_id, price) FROM stdin;
 --
 
 COPY public.carts (cart_id, created_at) FROM stdin;
-
 \.
 
 
@@ -266,6 +264,7 @@ COPY public.products (product_id, name, price, image, short_description, long_de
 6	Screen Protector - Zelda	3412	/images/screen-protector-zelda.jpg	PDP Collector's Edition Skins and Screen Protector for Nintendo Switch - Zelda Edition	Officially licensed by Nintendo\nMatte skins for Switch console and dock\nSimple mess-free removal\nIncludes 2 rubber thumb caps\nZelda: Breath of the Wild inspired design\nWARNING: This product can expose you to chemicals including DEHP, which is known to the State of California to cause cancer and birth defects or other reproductive harm.  For more information go to www.P65Warnings.ca.gov.
 7	Console Skin - Zelda!	2499	/images/console-skin-zelda.jpg	Zelda: Breath of the Wild Edition Controller for Nintendo Switch - Black	Get a handle on Hyrule and take on new adventures as Link with this The Legend of Zelda: Breath of the Wild wired controller for Nintendo Switch. \nIt's officially licensed and features Link poised for battle, while soft touch grips keep it safely in hand as you solve the Shrines of Trials. \nAn 10 ft. removable USB cable provides plenty of room for movement with this The Legend of Zelda: Breath of the Wild wired controller.
 8	Custom Joy-Con Skin - Zelda	18995	/images/console-skin-customized-zelda-luxury.jpg	Customize your Joy-Con with the game you like the most!	This set of Nintendo Switch Joy-Con controllers features a custom painted The Legend of Zelda: Breath of the Wild theme. Comes with matching colored wrist straps.\n\nAll controllers are brand new and are taken apart only to customize.\n\nWe do full customization work, just ask!
+9	BotW - Master Edition	12999	/images/zelda-botw-master-edition.jpg	The Legend of Zelda: Breath of the Wild - Master Edition	Includes Master Sword Statue, Nintendo Switch Sheikah Slate Carrying Case, The Legend of Zelda: Breath of the Wild Game, 24-song Soundtrack, Wolrd Map of Hyrule,  DC and Sheikah Eye Collective Coin
 \.
 
 
@@ -294,7 +293,7 @@ SELECT pg_catalog.setval('public.orders_order_id_seq', 1, false);
 -- Name: products_product_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.products_product_id_seq', 1, false);
+SELECT pg_catalog.setval('public.products_product_id_seq', 10, false);
 
 
 --
