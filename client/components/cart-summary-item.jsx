@@ -18,7 +18,7 @@ class CartSummaryItem extends React.Component {
         <div className='col-lg-3 col-12 qty-container'>
           <div className='w-100 mb-3 quantity-title' >Quantity</div>
           <div className='qty-control'>
-            <div className='arrow-box cursor-pointer' onClick={() => { this.props.removeItem(this.props.item.cart_item_id); }} >
+            <div className='arrow-box cursor-pointer' onClick={() => { this.props.removeItem(this.props.item.product_id); }} >
               <i className='fas fa-minus'></i>
             </div>
             <div className='quantity-box'>{this.props.qty}</div>
