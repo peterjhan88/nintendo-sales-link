@@ -27,7 +27,7 @@ See it in [Live](https://nintendo-sales-link.peterjhan.com)!
 
 ## Preview
 
-Here will be a gif!
+![Nintendo Sales-Link Demo](demo.gif)
 
 ## Development
 
