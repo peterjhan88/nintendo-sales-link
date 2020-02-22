@@ -102,11 +102,13 @@ class CartSummary extends React.Component {
   }
 
   handleClickRemoveItemEntirely(productId) {
-    const itemsToRemove = this.props.cart.filter(item => item.product_id === productId);
-    for (var index = 0; index < itemsToRemove.length; index++) {
-      this.handleClickRemoveItem(itemsToRemove[index].cart_item_id);
-    }
-    this.props.removeItemEntirely(productId);
+    fetch(`/api/cartItems/removeEntirely/${productId}`, { method: 'DELETE' })
+      .then(response => {
+        this.props.removeItemEntirely(productId);
+      })
+      .catch(err => {
+        console.error(err);
+      });
   }
 
   render() {

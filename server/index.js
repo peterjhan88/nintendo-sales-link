@@ -182,6 +182,32 @@ app.delete('/api/cartItems/:cartItemId', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.delete('/api/cartItems/removeEntirely/:productId', (req, res, next) => {
+  const cartId = req.session.cart_id;
+  if (!cartId) {
+    throw new ClientError('Session does not have cart ID', 400);
+  }
+
+  const productId = req.params.productId;
+  if (productId.match(/\D/) || parseInt(productId, 10) < 1) {
+    throw new ClientError(`productId=${productId} is not positive integer`, 400);
+  }
+
+  const cartItemsSql = `
+    delete from cart_items
+    where cart_id=$1 and product_id=$2
+    returning *
+  `;
+  db.query(cartItemsSql, [cartId, productId])
+    .then(result => {
+      if (result.rows.length === 0) {
+        throw new ClientError('Either product id and/or cart id is not valid', 400);
+      }
+      res.sendStatus(204);
+    })
+    .catch(err => next(err));
+});
+
 app.use('/api', (req, res, next) => {
   next(new ClientError(`cannot ${req.method} ${req.originalUrl}`, 404));
 });

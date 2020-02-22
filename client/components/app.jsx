@@ -57,10 +57,10 @@ export default class App extends React.Component {
   }
 
   removeItemEntirely(productId) {
-    const itemsToRemove = this.state.cart.filter(item => item.product_id === productId);
-    for (var index = 0; index < itemsToRemove.length; index++) {
-      this.removeItem(itemsToRemove[index].cart_item_id);
-    }
+    this.setState(previousState => {
+      const itemsLeft = previousState.cart.filter(item => item.product_id !== productId);
+      return { cart: itemsLeft };
+    });
   }
 
   componentDidMount() {
