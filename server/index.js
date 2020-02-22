@@ -182,7 +182,7 @@ app.delete('/api/cartItems/:cartItemId', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.delete('/api/cartItem/removeEntirely/:productId', (req, res, next) => {
+app.delete('/api/cartItems/removeEntirely/:productId', (req, res, next) => {
   const cartId = req.session.cart_id;
   if (!cartId) {
     throw new ClientError('Session does not have cart ID', 400);
