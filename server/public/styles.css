@@ -54,6 +54,7 @@
 }
 .image-detail {
   height: 400px;
+  object-fit: contain;
 }
 .image-container-cart {
   height: 400px;
@@ -69,7 +70,7 @@
   height: 50%;
 }
 .card-list {
-  height: 600px;
+  height: 525px;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -97,7 +98,7 @@
 }
 
 .card-body-list-item {
-  width: 90%;
+  width: 100%;
 }
 .card-body-cart {
   width: 60%;
