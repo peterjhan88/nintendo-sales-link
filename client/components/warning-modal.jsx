@@ -22,7 +22,7 @@ class WarningModal extends React.Component {
             such as real names, addresses, or credit card numbers.
             </p>
           </div>
-          <div className="btn btn-danger" onClick={() => { this.props.removeModalWithConsent(); }}>Accept</div>
+          <div className="btn btn-danger cursor-pointer" onClick={() => { this.props.removeModalWithConsent(); }}>Accept</div>
         </div>
       </div>
     );
