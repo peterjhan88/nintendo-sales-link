@@ -137,7 +137,11 @@ class CartSummary extends React.Component {
         }
         <div className='col-12 col-lg-3 pb-5 grand-total-container'>
           <div className='col-12 my-4 cart-total-price d-flex'>Grand Total: ${(this.calculateTotal() / 100).toFixed(2)}</div>
-          <button className='col-12 col-lg-8 btn btn-info button-height' onClick={this.handleClickPlaceOrder}>Place Order</button>
+          {
+            cartItems.length === 0
+              ? <div className='col-12 col-lg-12 pb-5'>No Item to Order</div>
+              : <button className='col-12 col-lg-8 btn btn-info button-height' onClick={this.handleClickPlaceOrder}>Place Order</button>
+          }
         </div>
       </div>
     );
