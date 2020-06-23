@@ -24,6 +24,7 @@
   flex-flow: row wrap;
   justify-content: center;
 }
+
 .header-logo-container {
   display: flex;
   align-items: center;
@@ -54,6 +55,7 @@
 }
 .image-detail {
   height: 400px;
+  object-fit: contain;
 }
 .image-container-cart {
   height: 400px;
@@ -69,11 +71,14 @@
   height: 50%;
 }
 .card-list {
-  height: 600px;
+  height: 525px;
   overflow: hidden;
   display: flex;
   align-items: center;
   background: rgba(255,255,255,0.3);
+}
+.card-list:hover {
+  transform: scale(1.05);
 }
 .card-title {
   font-size: 1.7rem;
@@ -97,7 +102,7 @@
 }
 
 .card-body-list-item {
-  width: 90%;
+  width: 100%;
 }
 .card-body-cart {
   width: 60%;
@@ -138,7 +143,7 @@
 }
 
 .empty-cart {
-  height: 400px;
+  height: 100px;
 }
 
 .cart-total-price,
@@ -306,8 +311,17 @@
   overflow-y: hidden;
 }
 
-@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+.add-to-cart-button:hover {
+  transform: scale(1.05);
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (orientation: portrait) {
   .header-name {
     display: none;
+  }
+}
+@media only screen and (min-device-width : 375px) and (max-device-width : 667px) and (orientation : landscape) {
+  .header-nav {
+    height: 80px;
   }
 }

@@ -22,8 +22,6 @@ class CheckoutForm extends React.Component {
   handlePlaceOrder(event) {
     event.preventDefault();
     if (!this.goodToSubmit()) {
-      // eslint-disable-next-line no-console
-      console.log('Invalid Inputs! Either input values are invalid or no items in the cart!');
       return false;
     }
     var orderDetails = {};
@@ -70,11 +68,13 @@ class CheckoutForm extends React.Component {
     }
     creditCard = creditCard.match(/\d/g);
     let formatted = '';
-    for (var index = 0; index < creditCard.length && index < maxCreditCardDigits; index++) {
-      if (index !== 0 && index % 4 === 0) {
-        formatted += '-';
+    if (creditCard !== null) {
+      for (var index = 0; index < creditCard.length && index < maxCreditCardDigits; index++) {
+        if (index !== 0 && index % 4 === 0) {
+          formatted += '-';
+        }
+        formatted += creditCard[index];
       }
-      formatted += creditCard[index];
     }
     this.setState({ creditCard: formatted });
   }
